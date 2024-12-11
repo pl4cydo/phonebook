@@ -1,6 +1,6 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PhoneBookApi.Data;
 using PhoneBookApi.Interfaces;
 using PhoneBookApi.Mappings;
@@ -15,9 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IContactsService, ContactsService>();
 builder.Services.AddScoped<IContactsRepository, ContactsRepository>();
 builder.Services.AddAutoMapper(typeof(EntitiesToDTOMappingProfile));
-// builder.Services.AddFluentValidationAutoValidation();
-// builder.Services.AddFluentValidationClientsideAdapters();
-// builder.Services.AddValidatorsFromAssemblyContaining<ContactsValidation>();
 #pragma warning disable CS0618 // Type or member is obsolete
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ContactsValidation>());
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -29,8 +26,26 @@ builder.Services.AddDbContext<PhoneBookContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 40)) // Altere para sua versão do MySQL
     ));
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBookApi", Version = "v1" });
+});
+
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseSwagger();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBookApi");
+    c.RoutePrefix = "swagger"; 
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
