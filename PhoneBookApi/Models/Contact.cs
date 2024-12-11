@@ -13,7 +13,7 @@ namespace PhoneBookApi.Models
 
         [Required]
         [Phone]
-        [StringLength(13)]
+        [StringLength(14)]
         public string PhoneNumber { get; set; }
 
         [EmailAddress]

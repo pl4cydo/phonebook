@@ -1,9 +1,12 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using PhoneBookApi.Data;
 using PhoneBookApi.Interfaces;
 using PhoneBookApi.Mappings;
 using PhoneBookApi.Repositories;
 using PhoneBookApi.Services;
+using PhoneBookApi.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,13 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IContactsService, ContactsService>();
 builder.Services.AddScoped<IContactsRepository, ContactsRepository>();
 builder.Services.AddAutoMapper(typeof(EntitiesToDTOMappingProfile));
+// builder.Services.AddFluentValidationAutoValidation();
+// builder.Services.AddFluentValidationClientsideAdapters();
+// builder.Services.AddValidatorsFromAssemblyContaining<ContactsValidation>();
+#pragma warning disable CS0618 // Type or member is obsolete
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ContactsValidation>());
+#pragma warning restore CS0618 // Type or member is obsolete
+builder.Services.AddScoped<IContactsValidation, ContactsValidation>();
 
 builder.Services.AddDbContext<PhoneBookContext>(options =>
     options.UseMySql(

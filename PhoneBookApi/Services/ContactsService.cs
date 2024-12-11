@@ -1,16 +1,20 @@
 
+using Microsoft.AspNetCore.Http.HttpResults;
 using PhoneBookApi.Interfaces;
 using PhoneBookApi.Models;
+using PhoneBookApi.Validation;
 
 namespace PhoneBookApi.Services
 {
     public class ContactsService : IContactsService
     {
         private readonly IContactsRepository _contactsRepository;
+        private readonly IContactsValidation _contactsValidation;
 
-        public ContactsService(IContactsRepository contactsRepository)
+        public ContactsService(IContactsRepository contactsRepository, IContactsValidation contactsValidation)
         {
             _contactsRepository = contactsRepository;
+            _contactsValidation = contactsValidation;
         }
 
         public async Task<Contact> GetById(int id)
@@ -37,6 +41,22 @@ namespace PhoneBookApi.Services
         }
         public async Task<bool> Create(Contact newContact)
         {
+            _contactsValidation.ValidateContact(newContact);
+
+            Contact contacCheckPhoneNumber = await _contactsRepository.GetByPhoneNumber(newContact.PhoneNumber);
+
+            if (contacCheckPhoneNumber != null)
+            {
+                throw new InvalidOperationException($"Phone Number alredy exists");
+            }
+
+            Contact contacCheckEmail = await _contactsRepository.GetByEmail(newContact.Email);
+
+            if (contacCheckEmail != null)
+            {
+                throw new InvalidOperationException($"Email alredy exists");
+            }
+
             _contactsRepository.Create(newContact);
             return await _contactsRepository.SaveAllAsync();
         }
@@ -60,6 +80,8 @@ namespace PhoneBookApi.Services
 
         public async Task<Contact> Put(int id, Contact contact)
         {
+            _contactsValidation.ValidateContact(contact);
+            
             Contact contactResult = await _contactsRepository.GetById(id);
 
             if (contactResult == null)

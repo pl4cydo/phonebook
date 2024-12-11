@@ -11,5 +11,17 @@ namespace PhoneBookApi.Data
         }
 
         public DbSet<Contact> Contacts { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Contact>()
+                .HasIndex(c => c.Email)
+                .IsUnique()
+                .HasDatabaseName("IX_Contacts_Email");
+
+            modelBuilder.Entity<Contact>()
+                .HasIndex(c => c.PhoneNumber)
+                .IsUnique()
+                .HasDatabaseName("IX_Contacts_PhoneNumber");
+        }
     }
 }

@@ -23,6 +23,18 @@ namespace PhoneBookApi.Repositories
             return contact!;
         }
 
+        public async Task<Contact> GetByPhoneNumber(string phoneNumber)
+        {
+            var contact = await _context.Contacts.Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
+            return contact!;
+        }
+
+        public async Task<Contact> GetByEmail(string email)
+        {
+            var contact = await _context.Contacts.Where(x => x.Email == email).FirstOrDefaultAsync();
+            return contact!;
+        }
+
         public async Task<IEnumerable<Contact>> GetList()
         {
             return await _context.Contacts.ToListAsync();
@@ -72,5 +84,6 @@ namespace PhoneBookApi.Repositories
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
     }
 }
