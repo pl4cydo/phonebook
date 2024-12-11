@@ -1,0 +1,31 @@
+# Ignore para o projeto PhoneBookApi (ASP.NET Core)
+PhoneBookApi/bin/
+PhoneBookApi/obj/
+PhoneBookApi/*.user
+PhoneBookApi/*.suo
+PhoneBookApi/*.userosscache
+PhoneBookApi/*.sln.docstates
+PhoneBookApi/.vs/
+PhoneBookApi/.vscode/
+PhoneBookApi/appsettings.*.json
+
+# Ignore para o projeto PhoneBookFront (Vue 3)
+PhoneBookFront/node_modules/
+PhoneBookFront/dist/
+PhoneBookFront/.env
+PhoneBookFront/.env.*
+PhoneBookFront/npm-debug.log*
+PhoneBookFront/yarn-error.log*
+PhoneBookFront/.idea/
+PhoneBookFront/.vscode/
+
+# Ignore geral
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*.lock
+.idea/
+.vscode/

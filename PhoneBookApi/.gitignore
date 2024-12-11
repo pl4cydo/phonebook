@@ -1,0 +1,29 @@
+# Diretórios de build
+bin/
+obj/
+
+# Diretórios do Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Dependências do NuGet
+packages/
+*.nupkg
+
+# Arquivos de publicação
+publish/
+
+# Configurações de IDE
+*.ide
+*.dbmdl
+*.dbproj.schemaview
+
+# Logs
+*.log
+
+# Arquivos temporários do sistema
+*.tmp
+*.temp

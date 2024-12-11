@@ -1,0 +1,29 @@
+PhoneBook ToDo:
+- Criar projeto no github;
+
+PhoneBookApi ToDo:
+- Criar o projeto DotNet OK;
+- Fazer um CRUD funcional OK;
+- Não deletar nada OK;
+- DTO;
+- Validação;
+- Swagger;
+- Test;
+
+PhoneBookFront ToDo:
+- Criar projeto Vue;
+- Criar landpage;
+- Configurar requisições;
+
+PhoneBook Diferenciais ToDo: (Acho que a ideia aqui vai ser fazer um projeto separado para authenticar e se comunicar via rabbitmq com a API)
+- Authenticação;
+- RabbitMq;
+- Docker;
+
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+insert into Contacts (Name, PhoneNumber, Email) values 
+('Plácydo Silva de Lima', '081986482982', 'placydo.dev@gmail.com')
+('Daniele Saara dos Santos de Lima', '081983446602', 'daniele.saara@gmail.com')
+
