@@ -1,9 +1,4 @@
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/bin/Debug/net8.0/CoverletSourceRootsMapping_PhoneBookTests
-/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.csproj.AssemblyReference.cache
-/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.GeneratedMSBuildEditorConfig.editorconfig
-/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.AssemblyInfoInputs.cache
-/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.AssemblyInfo.cs
-/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.csproj.CoreCompileInputs.cache
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/bin/Debug/net8.0/PhoneBookApi.deps.json
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/bin/Debug/net8.0/PhoneBookApi.runtimeconfig.json
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/bin/Debug/net8.0/appsettings.Development.json
@@ -150,6 +145,11 @@
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/bin/Debug/net8.0/PhoneBookApi.dll
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/bin/Debug/net8.0/PhoneBookApi.pdb
+/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.csproj.AssemblyReference.cache
+/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.GeneratedMSBuildEditorConfig.editorconfig
+/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.AssemblyInfoInputs.cache
+/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.AssemblyInfo.cs
+/home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.csproj.CoreCompileInputs.cache
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.csproj.CopyComplete
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/PhoneBookTests.dll
 /home/placydo/Documents/dotnet/PhoneBook/PhoneBookTests/obj/Debug/net8.0/refint/PhoneBookTests.dll

@@ -1,6 +1,6 @@
 using PhoneBookApi.Models;
 
-namespace PhoneBookApi.Validation
+namespace PhoneBookApi.Interfaces
 {
     public interface IContactsValidation
     {
