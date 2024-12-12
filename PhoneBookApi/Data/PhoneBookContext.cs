@@ -10,7 +10,7 @@ namespace PhoneBookApi.Data
 
         }
 
-        public DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Contact>()

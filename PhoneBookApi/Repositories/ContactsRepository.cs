@@ -9,12 +9,10 @@ namespace PhoneBookApi.Repositories
     public class ContactsRepository : IContactsRepository
     {
         private readonly PhoneBookContext _context;
-        private readonly IMapper _mapper;
 
-        public ContactsRepository(PhoneBookContext context, IMapper mapper)
+        public ContactsRepository(PhoneBookContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Contact> GetById(int id)
@@ -41,7 +39,11 @@ namespace PhoneBookApi.Repositories
         }
 
         public void Create(Contact newContact)
-        {   
+        {
+            if (newContact == null)
+            {
+                throw new ArgumentNullException(nameof(newContact));
+            }
             _context.Contacts.Add(newContact);
         }
 
@@ -71,11 +73,11 @@ namespace PhoneBookApi.Repositories
         public async Task<bool> UpdateStatusAsync(int id)
         {
             Contact contactResult = _context.Contacts.Find(id)!;
-            
-            if (contactResult != null) 
+
+            if (contactResult != null)
             {
                 contactResult.Status = 0;
-            } 
+            }
 
             return await _context.SaveChangesAsync() > 0;
         }
