@@ -19,7 +19,7 @@ namespace PhoneBookApi.Controllers
         }
 
         [HttpGet("list/{id}")]
-        public async Task<ActionResult<ContactsDTO>> GetByList(int id) {
+        public async Task<ActionResult<ContactsDTO>> GetById(int id) {
             Contact contactResult = await _contactsService.GetById(id);
             ContactsDTO contactsDTO = _mapper.Map<ContactsDTO>(contactResult);
             return Ok(contactsDTO);
