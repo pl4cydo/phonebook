@@ -23,6 +23,10 @@ interface IProps {
 
 const visible: Ref<boolean> = ref(false);
 const visibleUpdate: Ref<boolean> = ref(false);
+const alertMsg: Ref<string> = ref('');
+
+const phoneRegex = /^55\d{2}9\d{8}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const props = defineProps<IProps>();
 
@@ -56,31 +60,44 @@ const deleteContact = async (id: number) => {
 };
 
 const updateContacts = () => {
-  fetch(`http://localhost:5011/api/Contacts/update/${updateContact.value!.id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      name: updateContact.value?.name,
-      phoneNumber: updateContact.value?.phoneNumber,
-      email: updateContact.value?.email,
-    }),
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.info('Sucess; ', data)
-      window.location.reload();
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
 
+  if (!updateContact.value?.name.trim()) {
+    alertMsg.value = 'Name cannot be empty. Please enter your name.';
+    return;
+  } else if (!phoneRegex.test(updateContact.value?.phoneNumber)) {
+    alertMsg.value = 'Phone number must be in the format 5581986482982 (55 + DDD + number)';
+    return;
+  } else if (!emailRegex.test(updateContact.value?.email)) {
+    alertMsg.value = 'Invalid email address. Please enter a valid email in the format: user@example.com';
+    return;
+  } else {
+    fetch(`http://localhost:5011/api/Contacts/update/${updateContact.value!.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: updateContact.value?.name,
+        phoneNumber: updateContact.value?.phoneNumber,
+        email: updateContact.value?.email,
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.info('Sucess; ', data)
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+    visibleUpdate.value = false;
+  }
 }
 
 const dangerMode = (id: number, name: string) => {
@@ -165,9 +182,10 @@ const dangerMode = (id: number, name: string) => {
       <label for="email" class="label">Email</label>
       <InputText v-model="updateContact!.email" id="email" class="input" autocomplete="off" />
     </div>
+    <span class="alert-msg">{{ alertMsg }}</span>
     <div class="button-group">
       <Button type="button" label="Cancel" severity="secondary" @click="visibleUpdate = false"></Button>
-      <Button type="button" label="Save" @click="visibleUpdate = false; updateContacts()"></Button>
+      <Button type="button" label="Save" @click="updateContacts()"></Button>
     </div>
   </Dialog>
 
@@ -233,5 +251,12 @@ const dangerMode = (id: number, name: string) => {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+  margin-top: 10px;
+}
+
+.alert-msg {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 100px;
 }
 </style>
