@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import HeaderComponent from './components/HeaderComponent.vue';
 import ContactsComponent from './components/ContactsComponent.vue';
 import AddContact from './components/AddContact.vue';
@@ -12,7 +12,7 @@ interface IDataContacts {
     email: string;
 }
 
-const dataContacts: Ref<IDataContacts[]> = ref(null)
+const dataContacts: Ref<IDataContacts[] | null> = ref(null)
 
 const getList = () => {
   fetch('http://localhost:5011/api/Contacts/list')
@@ -23,10 +23,6 @@ const getList = () => {
     .catch((e) => {
       console.error('Das ist der Catch Error: ', e)
     })
-}
-
-const createContact = () => {
-
 }
 
 onMounted(() => {

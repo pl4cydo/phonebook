@@ -12,13 +12,13 @@ PhoneBookApi ToDo:
 
 PhoneBookFront ToDo:
 - Criar projeto Vue OK;
-- Criar landpage;
-- Configurar requisições;
+- Criar landpage OK;
+- Configurar requisições OK;
 
 PhoneBook Diferenciais ToDo: (Acho que a ideia aqui vai ser fazer um projeto separado para authenticar e se comunicar via rabbitmq com a API)
 - Authenticação;
 - RabbitMq;
-- Docker;
+- Docker OK;
 
 
 -- dotnet ef migrations add InitialCreate

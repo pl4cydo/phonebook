@@ -23,7 +23,7 @@ builder.Services.AddScoped<IContactsValidation, ContactsValidation>();
 builder.Services.AddDbContext<PhoneBookContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 40)) // Altere para sua versão do MySQL
+        new MySqlServerVersion(new Version(8, 0, 40))
     ));
 
 builder.Services.AddSwaggerGen(c =>

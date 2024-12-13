@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+
+  backend:
+    build:
+      context: ./PhoneBookApi
+      dockerfile: Dockerfile
+    ports:
+      - "5011:5011"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db;Database=PhoneBookDb;User=placydo;Password=placydo;
+    depends_on:
+      - db
+    networks:
+      - app-network
+  
+  frontend:
+    build:
+      context: ./PhoneBookPage
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: PhoneBookDb
+      MYSQL_USER: placydo
+      MYSQL_PASSWORD: placydo
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+networks:
+  app-network:

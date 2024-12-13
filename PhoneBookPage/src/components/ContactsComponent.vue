@@ -18,7 +18,7 @@ interface IDataContacts {
 }
 
 interface IProps {
-  dataContacts: IDataContacts[]
+  dataContacts: IDataContacts[] | null
 }
 
 const visible: Ref<boolean> = ref(false);
@@ -56,7 +56,7 @@ const deleteContact = async (id: number) => {
 };
 
 const updateContacts = () => {
-  fetch(`http://localhost:5011/api/Contacts/update/${updateContact.value.id}`, {
+  fetch(`http://localhost:5011/api/Contacts/update/${updateContact.value!.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
