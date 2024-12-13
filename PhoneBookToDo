@@ -1,17 +1,17 @@
 PhoneBook ToDo:
-- Criar projeto no github;
+- Criar projeto no github OK;
 
 PhoneBookApi ToDo:
 - Criar o projeto DotNet OK;
 - Fazer um CRUD funcional OK;
 - Não deletar nada OK;
 - DTO OK;
-- Validação;
-- Swagger;
-- Test;
+- Validação OK;
+- Swagger OK;
+- Test OK;
 
 PhoneBookFront ToDo:
-- Criar projeto Vue;
+- Criar projeto Vue OK;
 - Criar landpage;
 - Configurar requisições;
 

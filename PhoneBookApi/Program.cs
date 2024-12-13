@@ -31,6 +31,16 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBookApi", Version = "v1" });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -46,6 +56,8 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBookApi");
     c.RoutePrefix = "swagger"; 
 });
+
+app.UseCors("AllowAllOrigins");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
