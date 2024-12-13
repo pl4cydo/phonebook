@@ -1,11 +1,18 @@
 <script setup lang="ts">
-// import Card from 'primevue/card';
-import Panel from 'primevue/panel';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, Ref } from 'vue';
 import HeaderComponent from './components/HeaderComponent.vue';
-// import HeaderComponent from ';
+import ContactsComponent from './components/ContactsComponent.vue';
+import AddContact from './components/AddContact.vue';
 
-const dataContacts = ref(null)
+
+interface IDataContacts {
+    id: number;
+    name: string;
+    phoneNumber: string;
+    email: string;
+}
+
+const dataContacts: Ref<IDataContacts[]> = ref(null)
 
 const getList = () => {
   fetch('http://localhost:5011/api/Contacts/list')
@@ -18,6 +25,10 @@ const getList = () => {
     })
 }
 
+const createContact = () => {
+
+}
+
 onMounted(() => {
   getList()
 })
@@ -27,14 +38,13 @@ onMounted(() => {
 <template>
   <div class="container">
     <HeaderComponent />
-
     <div class="page">
       <div class="top-bar">
-        <h3>List of Contacts</h3>
-        <h3>A - Z</h3>
+        <h3>List of Contacts  A - Z</h3>
+        <AddContact />
       </div>
       <div class="panel-container">
-        
+        <ContactsComponent :dataContacts="dataContacts"/>
       </div>
     </div>
   </div>
@@ -66,6 +76,11 @@ onMounted(() => {
 .top-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.top-bar > * {
+  margin-inline: 20px;
 }
 
 .panel-container {

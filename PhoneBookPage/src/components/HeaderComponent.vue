@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import DrawerComponent from './DrawerComponent.vue';
 
 </script>
 
@@ -7,9 +7,7 @@
     <header class="header">
       <nav class="nav">
         <div class="logo">PhoneBook</div>
-        <ul class="nav-links">
-          <li><a href="#" class="nav-link">Contact</a></li>
-        </ul>
+        <DrawerComponent />
       </nav>
     </header>
 </template>
@@ -38,31 +36,5 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: #555;
-  font-size: 1rem;
-  transition: color 0.3s;
-}
-
-.nav-link:hover {
-  color: #000;
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    /* You can add a menu icon and toggle logic here for mobile view */
-  }
 }
 </style>

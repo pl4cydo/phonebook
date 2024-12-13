@@ -38,7 +38,8 @@ namespace PhoneBookApi.Controllers
         {
             Contact newContact = _mapper.Map<Contact>(newContactDTO);
             bool result = await _contactsService.Create(newContact);
-            return result ? Ok("Success") : BadRequest("Error on create a contact");
+            var response = new { response = "success" };
+            return result ? Ok(response) : BadRequest("Error on create a contact");
         }
 
         [HttpDelete("delete/{id}")]
