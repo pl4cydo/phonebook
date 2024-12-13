@@ -4,21 +4,26 @@
     import { ref, type Ref } from 'vue';
 
     interface IContact {
-        Name: string;
-        PhoneNumber: string;
-        Email: string;
+        name: string;
+        phoneNumber: string;
+        email: string;
     }
 
-    const newContact: Ref<IContact> = {}
+    const newContact: Ref<IContact> = ref({
+        name: '',
+        phoneNumber: '',
+        email: ''
+    })
     const visible: Ref<boolean> = ref(false);
 
     const createContact = () => {
+        console.log(newContact)
         fetch('http://localhost:5011/api/Contacts/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json', 
             },
-            body: JSON.stringify(newContact),
+            body: JSON.stringify(newContact.value),
         })
             .then(response => {
                 if (!response.ok) {
@@ -27,8 +32,8 @@
                 return response.json();
             })
             .then(data => {
+                console.info('Sucess: ', data)
                 window.location.reload();
-                console.log('Success:', data.response);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -45,19 +50,19 @@
                 <span class="text-description">Add new information</span>
                 <div class="input-group">
                     <label for="name" class="label">Name</label>
-                    <InputText v-model="newContact.Name" id="name" class="input" autocomplete="off" />
+                    <InputText v-model="newContact.name" id="name" class="input" autocomplete="off" />
                 </div>
                 <div class="input-group">
                     <label for="phoneNumber" class="label">Phone Number</label>
-                    <InputText v-model="newContact.PhoneNumber" id="phoneNumber" class="input" autocomplete="off" />
+                    <InputText v-model="newContact.phoneNumber" id="phoneNumber" class="input" autocomplete="off" />
                 </div>
                 <div class="input-group">
                     <label for="email" class="label">Email</label>
-                    <InputText v-model="newContact.Email" id="email" class="input" autocomplete="off" />
+                    <InputText v-model="newContact.email" id="email" class="input" autocomplete="off" />
                 </div>
                 <div class="button-group">
                     <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-                    <Button type="button" label="Save" @click="visible = false; console.log(newContact); createContact()"></Button>
+                    <Button type="button" label="Save" @click="visible = false; createContact()"></Button>
                 </div>
             </Dialog>
         </div>

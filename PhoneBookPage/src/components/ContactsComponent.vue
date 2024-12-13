@@ -6,8 +6,6 @@ import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
 import ConfirmDialog from 'primevue/confirmdialog';
 import Toast from 'primevue/toast';
-import FloatLabel from 'primevue/floatlabel';
-
 
 const confirm = useConfirm();
 const toast = useToast();
@@ -17,12 +15,6 @@ interface IDataContacts {
   name: string;
   phoneNumber: string;
   email: string;
-}
-
-interface IContact {
-    Name: string;
-    PhoneNumber: string;
-    Email: string;
 }
 
 interface IProps {
@@ -36,16 +28,15 @@ const props = defineProps<IProps>();
 
 const contactResult: Ref<IDataContacts | null> = ref(null);
 
-const updateContact: Ref<IContact> = ref({});
+const updateContact: Ref<IDataContacts | null> = ref(null);
 
 const getListById = async (id: number) => {
   await fetch(`http://localhost:5011/api/Contacts/list/${id}`)
     .then(response => response.json())
     .then(actualData => {
       contactResult.value = actualData;
-      updateContact.value.Name = actualData.name;
-      updateContact.value.PhoneNumber = actualData.phoneNumber;
-      updateContact.value.Email = actualData.email;
+      updateContact.value = actualData;
+
     })
     .catch((e) => {
       console.error('Das ist der Catch Error: ', e);
@@ -64,33 +55,35 @@ const deleteContact = async (id: number) => {
     });
 };
 
-const updateContacts = (id: number) => {
-  console.log(id, updateContact.value)
-    fetch(`http://localhost:5011/api/Contacts/update/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify(updateContact),
+const updateContacts = () => {
+  fetch(`http://localhost:5011/api/Contacts/update/${updateContact.value.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: updateContact.value?.name,
+      phoneNumber: updateContact.value?.phoneNumber,
+      email: updateContact.value?.email,
+    }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            window.location.reload();
-            console.log('Success:', data.response);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    .then(data => {
+      console.info('Sucess; ', data)
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 
 }
 
 const dangerMode = (id: number, name: string) => {
-  console.log("oi")
   confirm.require({
     message: `Do you want to delete ${name}?`,
     header: 'Danger Zone',
@@ -162,19 +155,19 @@ const dangerMode = (id: number, name: string) => {
   <Dialog v-model:visible="visibleUpdate" modal header="Update" :style="{ width: '25rem' }">
     <div class="input-group">
       <label for="name" class="label">Name</label>
-      <InputText v-model="updateContact.Name" id="name" class="input" autocomplete="off" />
+      <InputText v-model="updateContact!.name" id="name" class="input" autocomplete="off" />
     </div>
     <div class="input-group">
       <label for="phoneNumber" class="label">Phone Number</label>
-      <InputText v-model="updateContact.PhoneNumber" id="phoneNumber" class="input" autocomplete="off" />
+      <InputText v-model="updateContact!.phoneNumber" id="phoneNumber" class="input" autocomplete="off" />
     </div>
     <div class="input-group">
       <label for="email" class="label">Email</label>
-      <InputText v-model="updateContact.Email" id="email" class="input" autocomplete="off" />
+      <InputText v-model="updateContact!.email" id="email" class="input" autocomplete="off" />
     </div>
     <div class="button-group">
       <Button type="button" label="Cancel" severity="secondary" @click="visibleUpdate = false"></Button>
-      <Button type="button" label="Save" @click="visibleUpdate = false; updateContacts(contactResult.id)"></Button>
+      <Button type="button" label="Save" @click="visibleUpdate = false; updateContacts()"></Button>
     </div>
   </Dialog>
 
@@ -218,5 +211,27 @@ const dangerMode = (id: number, name: string) => {
 
 .button-container>* {
   margin-inline: 5px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-weight: 600;
+  width: 6rem;
+}
+
+.input {
+  flex-grow: 1;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 </style>
