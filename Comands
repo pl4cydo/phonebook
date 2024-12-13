@@ -1,0 +1,17 @@
+commands 
+
+Buidar docker compose
+- sudo docker-compose up --build
+
+Acessa o banco
+- sudo docker ps
+- sudo docker exec -it phonebook_db_1 mysql -u placydo -p placydo
+
+Acessa Api
+- sudo docker exec -it phonebook_backend_1 /bin/bash
+- curl http://localhost:5011/api/Contacts/list
+
+Iniciar projeto
+- sudo docker-compose up --build
+
+
