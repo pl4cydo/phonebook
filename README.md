@@ -30,6 +30,8 @@ Para iniciar todos os projetos de uma vez utilizando o Docker, siga os passos ab
 Acesse [http://localhost:5173/
 ](http://localhost:5173/)
 
+OBS: Caso seu mysql esteja up é preciso parar o processo. Caso alguma dessa portas estejam em uso, sugiro fazer o mesmo: 5173, 5011 e 3306.
+
 ## Como Iniciar Cada Projeto Separadamente
 
 ### Frontend
