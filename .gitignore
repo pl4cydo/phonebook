@@ -19,6 +19,17 @@ PhoneBookFront/yarn-error.log*
 PhoneBookFront/.idea/
 PhoneBookFront/.vscode/
 
+# Ignore para o projeto PhoneBookTest (testes .NET)
+PhoneBookTest/bin/
+PhoneBookTest/obj/
+PhoneBookTest/*.user
+PhoneBookTest/*.suo
+PhoneBookTest/*.userosscache
+PhoneBookTest/.vs/
+PhoneBookTest/.vscode/
+PhoneBookTest/*.sln.docstates
+
+
 # Ignore geral
 .DS_Store
 Thumbs.db

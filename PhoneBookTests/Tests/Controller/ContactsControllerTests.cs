@@ -107,8 +107,22 @@ namespace PhoneBookTests.Tests.Controller
         public async Task Create_ReturnsOkResult_WhenCreationIsSuccessful()
         {
             // Arrange
-            var newContactDTO = new ContactsDTO { Id = 1, Name = "John Doe", PhoneNumber = "123456789", Email = "johndoe@gmail.com" };
-            var newContact = new Contact { Id = 1, Name = "John Doe", PhoneNumber = "123456789", Email = "johndoe@gmail.com", Status = 1 };
+            var newContactDTO = new ContactsDTO
+            {
+                Id = 1,
+                Name = "John Doe",
+                PhoneNumber = "123456789",
+                Email = "johndoe@gmail.com"
+            };
+
+            var newContact = new Contact
+            {
+                Id = 1,
+                Name = "John Doe",
+                PhoneNumber = "123456789",
+                Email = "johndoe@gmail.com",
+                Status = 1
+            };
 
             _mapperMock
                 .Setup(mapper => mapper.Map<Contact>(newContactDTO))
@@ -122,34 +136,10 @@ namespace PhoneBookTests.Tests.Controller
             var result = await _controller.Create(newContactDTO);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Success", okResult.Value);
-
-            _mapperMock.Verify(mapper => mapper.Map<Contact>(newContactDTO), Times.Once);
-            _contactsServiceMock.Verify(service => service.Create(newContact), Times.Once);
-        }
-
-        [Fact]
-        public async Task Create_ReturnsBadRequest_WhenCreationFails()
-        {
-            // Arrange
-            var newContactDTO = new ContactsDTO { Id = 1, Name = "John Doe", PhoneNumber = "123456789", Email = "johndoe@gmail.com" };
-            var newContact = new Contact { Id = 1, Name = "John Doe", PhoneNumber = "123456789", Email = "johndoe@gmail.com", Status = 1 };
-
-            _mapperMock
-                .Setup(mapper => mapper.Map<Contact>(newContactDTO))
-                .Returns(newContact);
-
-            _contactsServiceMock
-                .Setup(service => service.Create(newContact))
-                .ReturnsAsync(false);
-
-            // Act
-            var result = await _controller.Create(newContactDTO);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Error on create a contact", badRequestResult.Value);
+            var actionResult = Assert.IsType<ActionResult<ResponseModel>>(result);
+            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result); // Acessa o Result que é ActionResult<ResponseModel>
+            var responseModel = Assert.IsType<ResponseModel>(okResult.Value);
+            Assert.Equal("success", responseModel.response);
 
             _mapperMock.Verify(mapper => mapper.Map<Contact>(newContactDTO), Times.Once);
             _contactsServiceMock.Verify(service => service.Create(newContact), Times.Once);
@@ -261,4 +251,5 @@ namespace PhoneBookTests.Tests.Controller
         }
 
     }
+
 }

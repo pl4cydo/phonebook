@@ -24,7 +24,7 @@ namespace PhoneBookApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumber = table.Column<string>(type: "varchar(14)", maxLength: 14, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "varchar(255)", nullable: false)
+                    Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -33,18 +33,6 @@ namespace PhoneBookApi.Migrations
                     table.PrimaryKey("PK_Contacts", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contacts_Email",
-                table: "Contacts",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contacts_PhoneNumber",
-                table: "Contacts",
-                column: "PhoneNumber",
-                unique: true);
         }
 
         /// <inheritdoc />

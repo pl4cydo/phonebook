@@ -34,12 +34,11 @@ namespace PhoneBookApi.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> Create(ContactsDTO newContactDTO)
+        public async Task<ActionResult<ResponseModel>> Create(ContactsDTO newContactDTO)
         {
             Contact newContact = _mapper.Map<Contact>(newContactDTO);
-            bool result = await _contactsService.Create(newContact);
-            var response = new { response = "success" };
-            return result ? Ok(response) : BadRequest("Error on create a contact");
+            await _contactsService.Create(newContact);
+            return Ok(new ResponseModel{ response = "success" });
         }
 
         [HttpDelete("delete/{id}")]

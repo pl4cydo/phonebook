@@ -21,16 +21,24 @@ namespace PhoneBookApi.Repositories
             return contact!;
         }
 
-        public async Task<Contact> GetByPhoneNumber(string phoneNumber)
+        public async Task<Contact?> GetByPhoneNumber(string phoneNumber)
         {
-            var contact = await _context.Contacts.Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
-            return contact!;
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                throw new ArgumentException("Phone number cannot be null or empty.", nameof(phoneNumber));
+
+            phoneNumber = phoneNumber.Trim();
+
+            return await _context.Contacts.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber && x.Status == 1);
         }
 
-        public async Task<Contact> GetByEmail(string email)
+        public async Task<Contact?> GetByEmail(string email)
         {
-            var contact = await _context.Contacts.Where(x => x.Email == email).FirstOrDefaultAsync();
-            return contact!;
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentException("Email cannot be null or empty.", nameof(email));
+
+            email = email.Trim();
+
+            return await _context.Contacts.FirstOrDefaultAsync(x => x.Email == email && x.Status == 1);
         }
 
         public async Task<IEnumerable<Contact>> GetList()

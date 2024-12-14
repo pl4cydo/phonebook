@@ -14,7 +14,7 @@ const visibleRight: Ref<boolean> = ref(false);
         </ul>
         <Drawer v-model:visible="visibleRight" header="Plácydo Lima" position="right">
             <p>Linkedin: <a href="https://www.linkedin.com/in/placydo/" target="_blank">link</a></p>
-            <p>Aplicação feita para test tecnico.</p>
+            <p>Aplicação feita para teste técnico.</p>
         </Drawer>
     </div>
 </template>

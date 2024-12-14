@@ -32,6 +32,13 @@ Acesse [http://localhost:5173/
 
 OBS: Caso seu mysql esteja up é preciso parar o processo. Caso alguma dessa portas estejam em uso, sugiro fazer o mesmo: 5173, 5011 e 3306.
 
+## Iniciando os Tests
+
+1. Execute o comando a seguir: 
+    ```bash
+    dotnet test PhoneBookTests
+    ```
+
 ## Como Iniciar Cada Projeto Separadamente
 
 ### Frontend

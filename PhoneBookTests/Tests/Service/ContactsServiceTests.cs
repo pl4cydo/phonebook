@@ -118,29 +118,23 @@ namespace PhoneBookTests.Tests.Service
         }
 
         [Fact]
-        public async Task Create_ShouldReturnTrue_WhenContactIsValidAndDoesNotExist()
+        public async Task Create_ShouldCreateContact_WhenDataIsValid()
         {
             // Arrange
             var newContact = new Contact
             {
+                Id = 1,
                 Name = "New Contact",
                 PhoneNumber = "1234567890",
-                Email = "newcontact@example.com",
+                Email = "new@example.com",
                 Status = 1
             };
 
-            // Mock das validações
-            _contactsValidationMock.Setup(v => v.ValidateContact(newContact));
-
-            // Mock do repositório para retornar null para telefone e e-mail
             _contactsRepositoryMock.Setup(r => r.GetByPhoneNumber(newContact.PhoneNumber)).ReturnsAsync((Contact)null);
             _contactsRepositoryMock.Setup(r => r.GetByEmail(newContact.Email)).ReturnsAsync((Contact)null);
-
-            // Mock do método Create
             _contactsRepositoryMock.Setup(r => r.Create(newContact));
-
-            // Mock do SaveAllAsync para retornar true
             _contactsRepositoryMock.Setup(r => r.SaveAllAsync()).ReturnsAsync(true);
+            _contactsValidationMock.Setup(v => v.ValidateContact(newContact));
 
             // Act
             var result = await _service.Create(newContact);
@@ -155,55 +149,87 @@ namespace PhoneBookTests.Tests.Service
         }
 
         [Fact]
-        public async Task Create_ShouldThrowInvalidOperationException_WhenPhoneNumberAlreadyExists()
+        public async Task Create_ShouldThrowInvalidOperationException_WhenPhoneNumberExists()
         {
             // Arrange
             var newContact = new Contact
             {
+                Id = 1,
                 Name = "New Contact",
                 PhoneNumber = "1234567890",
-                Email = "newcontact@example.com",
+                Email = "new@example.com",
                 Status = 1
             };
 
-            // Mock das validações
-            _contactsValidationMock.Setup(v => v.ValidateContact(newContact));
+            var existingContact = new Contact
+            {
+                Id = 2,
+                Name = "Existing Contact",
+                PhoneNumber = newContact.PhoneNumber,
+                Email = "existing@example.com",
+                Status = 1
+            };
 
-            // Mock do repositório para retornar um contato existente com o mesmo número de telefone
-            var existingContact = new Contact { PhoneNumber = newContact.PhoneNumber };
             _contactsRepositoryMock.Setup(r => r.GetByPhoneNumber(newContact.PhoneNumber)).ReturnsAsync(existingContact);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _service.Create(newContact));
             Assert.Equal("Phone Number alredy exists", exception.Message);
+            _contactsRepositoryMock.Verify(r => r.GetByPhoneNumber(newContact.PhoneNumber), Times.Once);
         }
 
         [Fact]
-        public async Task Create_ShouldThrowInvalidOperationException_WhenEmailAlreadyExists()
+        public async Task Create_ShouldThrowInvalidOperationException_WhenEmailExists()
         {
             // Arrange
             var newContact = new Contact
             {
+                Id = 1,
                 Name = "New Contact",
                 PhoneNumber = "1234567890",
-                Email = "newcontact@example.com",
+                Email = "new@example.com",
                 Status = 1
             };
 
-            // Mock das validações
-            _contactsValidationMock.Setup(v => v.ValidateContact(newContact));
+            var existingContact = new Contact
+            {
+                Id = 2,
+                Name = "Existing Contact",
+                PhoneNumber = "0987654321",
+                Email = newContact.Email,
+                Status = 1
+            };
 
-            // Mock do repositório para retornar null para telefone
             _contactsRepositoryMock.Setup(r => r.GetByPhoneNumber(newContact.PhoneNumber)).ReturnsAsync((Contact)null);
-
-            // Mock do repositório para retornar um contato existente com o mesmo e-mail
-            var existingContact = new Contact { Email = newContact.Email };
             _contactsRepositoryMock.Setup(r => r.GetByEmail(newContact.Email)).ReturnsAsync(existingContact);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _service.Create(newContact));
             Assert.Equal("Email alredy exists", exception.Message);
+            _contactsRepositoryMock.Verify(r => r.GetByEmail(newContact.Email), Times.Once);
         }
+
+        [Fact]
+        public async Task Create_ShouldThrowException_WhenValidationFails()
+        {
+            // Arrange
+            var newContact = new Contact
+            {
+                Id = 1,
+                Name = "Invalid Contact",
+                PhoneNumber = "",
+                Email = "invalid",
+                Status = 1
+            };
+
+            _contactsValidationMock.Setup(v => v.ValidateContact(newContact)).Throws(new ArgumentException("Invalid contact data"));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() => _service.Create(newContact));
+            Assert.Equal("Invalid contact data", exception.Message);
+            _contactsValidationMock.Verify(v => v.ValidateContact(newContact), Times.Once);
+        }
+
 
         [Fact]
         public async Task Delete_ShouldReturnTrue_WhenContactExistsAndIsActive()
@@ -279,7 +305,7 @@ namespace PhoneBookTests.Tests.Service
                 Name = "Old Contact",
                 PhoneNumber = "1234567890",
                 Email = "old@example.com",
-                Status = 1 
+                Status = 1
             };
 
             var updatedContact = new Contact
@@ -295,7 +321,7 @@ namespace PhoneBookTests.Tests.Service
             _contactsRepositoryMock.Setup(r => r.GetById(contactId)).ReturnsAsync(existingContact);
 
             // Mock da validação
-            _contactsValidationMock.Setup(v => v.ValidateContact(updatedContact)); 
+            _contactsValidationMock.Setup(v => v.ValidateContact(updatedContact));
 
             // Mock do repositório para retornar o contato atualizado
             _contactsRepositoryMock.Setup(r => r.Put(contactId, updatedContact)).ReturnsAsync(updatedContact);
@@ -355,7 +381,7 @@ namespace PhoneBookTests.Tests.Service
                 Name = "Updated Contact",
                 PhoneNumber = "0987654321",
                 Email = "updated@example.com",
-                Status = 1 
+                Status = 1
             };
 
             // Mock do repositório para retornar o contato inativo
