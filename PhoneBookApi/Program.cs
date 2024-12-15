@@ -49,16 +49,6 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-app.UseSwagger();
-
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBookApi");
-    c.RoutePrefix = "swagger"; 
-});
-
-app.UseCors("AllowAllOrigins");
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -67,12 +57,22 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseRouting();
+
+app.UseCors("AllowAllOrigins");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
-
 app.UseAuthorization();
+
+app.UseSwagger();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBookApi");
+    c.RoutePrefix = "swagger"; 
+});
 
 app.MapControllerRoute(
     name: "default",

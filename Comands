@@ -14,4 +14,6 @@ Acessa Api
 Iniciar projeto
 - sudo docker-compose up --build
 
-
+sudo docker-compose down --volumes --remove-orphans
+sudo docker system prune -af
+sudo docker volume prune -f
