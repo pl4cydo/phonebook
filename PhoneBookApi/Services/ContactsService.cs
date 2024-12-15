@@ -43,14 +43,14 @@ namespace PhoneBookApi.Services
         {
             _contactsValidation.ValidateContact(newContact);
 
-            Contact contacCheckPhoneNumber = await _contactsRepository.GetByPhoneNumber(newContact.PhoneNumber);
+            var contacCheckPhoneNumber = await _contactsRepository.GetByPhoneNumber(newContact.PhoneNumber);
 
             if (contacCheckPhoneNumber != null)
             {
                 throw new InvalidOperationException($"Phone Number alredy exists");
             }
 
-            Contact contacCheckEmail = await _contactsRepository.GetByEmail(newContact.Email);
+            var contacCheckEmail = await _contactsRepository.GetByEmail(newContact.Email);
 
             if (contacCheckEmail != null)
             {
@@ -82,7 +82,7 @@ namespace PhoneBookApi.Services
         {
             _contactsValidation.ValidateContact(contact);
             
-            Contact contactResult = await _contactsRepository.GetById(id);
+            var contactResult = await _contactsRepository.GetById(id);
 
             if (contactResult == null)
             {

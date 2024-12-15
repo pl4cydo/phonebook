@@ -6,15 +6,15 @@ namespace PhoneBookApi.DTOs
     {
          public int Id { get; set; }
 
-        // [Required]
-        // [MaxLength(100)]
-        public string Name { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; } = string.Empty;
 
-        // [Required]
-        // [Phone]
-        public string PhoneNumber { get; set; }
+        [Required]
+        [Phone]
+        public string PhoneNumber { get; set; } = string.Empty;
 
-        // [EmailAddress]
-        public string Email { get; set; }
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
     }
 }

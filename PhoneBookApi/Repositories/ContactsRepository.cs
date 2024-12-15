@@ -62,7 +62,7 @@ namespace PhoneBookApi.Repositories
 
         public async Task<Contact> Put(int id, Contact contact)
         {
-            Contact contactResult = await _context.Contacts.FindAsync(id);
+            var contactResult = await _context.Contacts.FindAsync(id);
 
             if (contactResult == null)
             {
