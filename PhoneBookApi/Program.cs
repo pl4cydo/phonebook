@@ -7,6 +7,7 @@ using PhoneBookApi.Mappings;
 using PhoneBookApi.Repositories;
 using PhoneBookApi.Services;
 using PhoneBookApi.Validation;
+using PhoneBookApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,20 +45,22 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseDeveloperExceptionPage();
+// }
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+// // Configure the HTTP request pipeline.
+// if (!app.Environment.IsDevelopment())
+// {
+//     app.UseExceptionHandler("/Home/Error");
+//     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//     app.UseHsts();
+// }
 
 app.UseRouting();
+
+app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 
 app.UseCors("AllowAllOrigins");
 

@@ -40,23 +40,21 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newContact.value),
-                })
-                .then(response => {
+            })
+                .then(async (response) => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
+                        const errorResponse = await response.json();
+                        alertMsg.value = errorResponse.message;
+                    } else {
+                        visible.value = false;
+                        alertMsg.value = '';
+                        window.location.reload();
                     }
                     return response.json();
-                })
-                .then(data => {
-                    console.info('Sucess: ', data)
-                    window.location.reload();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-
-            visible.value = false
-            alertMsg.value = ''
         }
 
     }
@@ -68,7 +66,7 @@
             <img @click="visible = true" alt="plus" class="plus" src="../assets/plus-svgrepo-com.svg" />
             <Dialog v-model:visible="visible" modal header="New Contact" :style="{ width: '25rem' }">
                 <span class="text-description">Add new information</span>
-                
+
                 <div class="input-group">
                     <label for="name" class="label">Name</label>
                     <InputText v-model="newContact.name" id="name" class="input" autocomplete="off" />
