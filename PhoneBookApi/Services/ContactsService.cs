@@ -37,7 +37,7 @@ namespace PhoneBookApi.Services
         public async Task<IEnumerable<Contact>> GetList()
         {
             IEnumerable<Contact> contactList = await _contactsRepository.GetList();
-            return contactList.Where(contact => contact.Status == 1);
+            return contactList.Where(contact => contact.Status == 1).OrderBy(contact => contact.Name);
         }
         public async Task<bool> Create(Contact newContact)
         {
